@@ -1,7 +1,7 @@
 var inRow = 4;
 var rects = [];
 var colors = ["red", "green", "blue", "yellow", "gray", "orange", "blueviolet", "cyan"];
-var lastColor = '';
+var lastColor;
 var colorsCZ = ["červenou", "zelenou", "modrou", "žlutou", "šedou", "oranžovou", "fialovou", "světle modrou"];
 var usedColors = [];
 var canvas = document.getElementById("canvas");
@@ -11,8 +11,15 @@ var player = new Circle(canvProperties.width/2,canvProperties.height/2,10);
 var rounds = 1;
 var time = 15;
 var started = false;
+var fps = 100;
 fillRects();
 player.paint(ctx);
+setInterval(function(){
+    rects.forEach(function(obj){
+        obj.paint(ctx);
+    });
+    player.paint(ctx);
+},1000/fps);
 
 document.getElementById('start').addEventListener('click', function(){
     rounds = 1;
@@ -59,24 +66,28 @@ document.addEventListener('keydown', function(key){
     })
 
 function startRound(){
+    document.getElementById('counter').innerHTML = '<br>';
     player.fillStyle = "white";
     document.getElementById('round').innerHTML = '<b>'+rounds+'.</b> kolo';
     started = true;
     var indexColor = Math.floor(Math.random() * colors.length);
-    if(colors[indexColor] == lastColor){
+    if(indexColor == lastColor){
         if(indexColor >= colors.length){
             indexColor = 0;
         }
         else{
             indexColor++;
         }
+        lastColor = indexColor;
     }
+    console.log(indexColor);
     var chosenColor = colors[indexColor];
     document.getElementById('chosenColor').innerHTML = colorsCZ[indexColor];
     document.getElementById('chosenColor').style.color = colors[indexColor];
-    document.getElementById('message').innerHTML = "";
+    document.getElementById('message').innerHTML = "<br>";
     var timeleft = time;
     var downloadTimer = setInterval(function(){
+    document.getElementById('counter').style.color = "black";
     timeleft--;
     document.getElementById("counter").textContent = timeleft;
     if(timeleft <= 0){
@@ -87,6 +98,7 @@ function startRound(){
 }
 
 function endRound(color){
+    document.getElementById('counter').innerHTML = '<br>';
     if(player.speed >= 15){
         player.speed = 15;
     }
@@ -126,6 +138,7 @@ function endRound(color){
         rounds++;
         var timeleft = 2;
         var downloadTimer = setInterval(function(){
+            document.getElementById('counter').style.color = "gray";
             timeleft--;
             document.getElementById("counter").textContent = timeleft;
             if(timeleft <= 0){
@@ -169,6 +182,11 @@ function fillRects(){
         }
     y += canvas.height/inRow;
     }
+    rects.forEach(function(obj){
+        if(obj.fillStyle == null){
+            obj.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        }
+    })
     for(i = 0; i < rects.length; i++){
         rects[i].paint(ctx);
     }
