@@ -1,0 +1,9 @@
+canvas{
+    border: solid black 1px;
+}
+main{
+    font-size: 16pt;
+}
+#chosenColor{
+    background-color: #bbb;
+}

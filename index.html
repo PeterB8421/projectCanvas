@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Projekt Canvas - Petr Balok</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <h1 class="text-center">Hra - canvas</h1>
+        <main class="container">
+            <p>Pohyb šipkami, váš cíl je dostat se včas na správnou barvu.</p>
+            <p>Jdi na:</p>
+            <p id="chosenColor"></p>
+            <p id="counter" class="text-center"></p>
+            <a href="#" class="btn btn-success" id="start">Start</a>
+            <p id="round"></p>
+            <p id="message"></p>
+            <canvas width="600" height="400" id="canvas"></canvas>
+        </main>
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="js/rectangle.js"></script>
+        <script src="js/circle.js"></script>
+        <script src="js/main.js"></script>
+        
+    </body>
+</html>
