@@ -1,7 +1,7 @@
 var inRow = 4;
 var rects = [];
-var colors = ["red", "green", "blue", "yellow", "gray", "orange", "blueviolet", "cyan"];
-var lastColor;
+var colors = ["red", "green", "blue", "yellow", "gray", "orangered", "blueviolet", "cyan"];
+var lastColor = colors.length+1;
 var colorsCZ = ["červenou", "zelenou", "modrou", "žlutou", "šedou", "oranžovou", "fialovou", "světle modrou"];
 var usedColors = [];
 var canvas = document.getElementById("canvas");
@@ -9,7 +9,7 @@ var ctx = canvas.getContext("2d");
 var canvProperties = canvas.getBoundingClientRect();
 var player = new Circle(canvProperties.width/2,canvProperties.height/2,10);
 var rounds = 1;
-var time = 15;
+var time = 10;
 var started = false;
 var fps = 100;
 fillRects();
@@ -23,7 +23,7 @@ setInterval(function(){
 
 document.getElementById('start').addEventListener('click', function(){
     rounds = 1;
-    time = 15;
+    time = 10;
     startRound();
 })
 document.addEventListener('keydown', function(key){
@@ -77,10 +77,9 @@ function startRound(){
         }
         else{
             indexColor++;
-        }
-        lastColor = indexColor;
+        }    
     }
-    console.log(indexColor);
+    lastColor = indexColor;
     var chosenColor = colors[indexColor];
     document.getElementById('chosenColor').innerHTML = colorsCZ[indexColor];
     document.getElementById('chosenColor').style.color = colors[indexColor];
@@ -99,8 +98,8 @@ function startRound(){
 
 function endRound(color){
     document.getElementById('counter').innerHTML = '<br>';
-    if(player.speed >= 15){
-        player.speed = 15;
+    if(player.speed >= 12){
+        player.speed = 12;
     }
     else{
         player.speed++;
@@ -138,9 +137,7 @@ function endRound(color){
         rounds++;
         var timeleft = 2;
         var downloadTimer = setInterval(function(){
-            document.getElementById('counter').style.color = "gray";
             timeleft--;
-            document.getElementById("counter").textContent = timeleft;
             if(timeleft <= 0){
                 clearInterval(downloadTimer);
                 setTimeout(startRound(),time);
