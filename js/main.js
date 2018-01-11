@@ -1,6 +1,6 @@
 var inRow = 4;
 var rects = [];
-var colors = ["red", "green", "blue", "yellow", "gray", "orangered", "blueviolet", "cyan"];
+var colors = ["red", "green", "blue", "yellow", "gray", "darkorange", "blueviolet", "cyan"];
 var lastColor = colors.length+1;
 var colorsCZ = ["červenou", "zelenou", "modrou", "žlutou", "šedou", "oranžovou", "fialovou", "světle modrou"];
 var usedColors = [];
@@ -72,7 +72,7 @@ function startRound(){
     started = true;
     var indexColor = Math.floor(Math.random() * colors.length);
     if(indexColor == lastColor){
-        if(indexColor >= colors.length){
+        if(indexColor >= colors.length-1){
             indexColor = 0;
         }
         else{
