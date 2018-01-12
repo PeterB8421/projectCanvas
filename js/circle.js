@@ -13,7 +13,7 @@ function Circle(x, y, radius) {
     dy: 0,                      // relativní posun souřadnice y
     enabled: false              // přesunutí povoleno
   };
-  this.speed = 8;               // rychlost pohybu objektu
+  this.speed = 4;               // rychlost pohybu objektu
   this.fillStyle = "white";      // barva výplně
   this.strokeStyle = "black";   // barva obrysu
   this.lineWidth = 5;           // tloušťka obrysu

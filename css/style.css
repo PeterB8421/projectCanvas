@@ -5,5 +5,8 @@ main{
     font-size: 16pt;
 }
 #chosenColor{
-    background-color: #bbb;
+    background-color: #ccc;
+}
+form{
+    border: 1px solid black;
 }

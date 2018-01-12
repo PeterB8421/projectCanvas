@@ -21,12 +21,33 @@
         <h1 class="text-center">Hra - canvas</h1>
         <main class="container">
             <p>Pohyb šipkami, váš cíl je dostat se včas na správnou barvu.</p>
-            <p>Jdi na:</p>
-            <p id="chosenColor"></p>
-            <p id="counter" class="text-center"></p>
-            <p id="message"> <br> </p>
-            <a href="#" class="btn btn-success" id="start">Start</a>
-            <p id="round"></p>
+            
+            <form class="col-xs-12 col-sm-4 col-md-4" id="diffForm">
+                <legend>Obtížnost</legend>
+                <div class="form-group">
+                    <label for="diff">Lehká</label>
+                    <input name="diff" type="radio" id="diffE" value="easy" checked>
+                </div>
+                <div class="form-group">
+                    <label for="diff">Střední</label>
+                    <input name="diff" type="radio" id="diffM" value="medium">
+                </div>
+                <div class="form-group">
+                    <label for="diff">Těžká</label>
+                    <input name="diff" type="radio" id="diffH" value="hard">
+                </div>
+            </form>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                        <p>Jdi na:</p>
+                        <p id="chosenColor"></p>
+                        <p id="round"></p>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <p id="counter" class="text-center"></p>
+                        <p id="message"> <br> </p>
+                </div>
+                <a href="#" class="btn btn-success" id="start">Start</a>
+            </div>
             <canvas width="600" height="400" id="canvas"></canvas>
         </main>
         <!-- jQuery -->

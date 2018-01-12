@@ -1,3 +1,4 @@
+$(function() {
 var inRow = 4;
 var rects = [];
 var colors = ["red", "green", "blue", "yellow", "gray", "darkorange", "blueviolet", "cyan"];
@@ -9,21 +10,45 @@ var ctx = canvas.getContext("2d");
 var canvProperties = canvas.getBoundingClientRect();
 var player = new Circle(canvProperties.width/2,canvProperties.height/2,10);
 var rounds = 1;
-var time = 10;
+var time;
 var started = false;
-var fps = 100;
+var maxSpeed;
+var minTime;
+//var fps = 100;
 fillRects();
 player.paint(ctx);
-setInterval(function(){
+/*setInterval(function(){
     rects.forEach(function(obj){
         obj.paint(ctx);
     });
     player.paint(ctx);
-},1000/fps);
+},1000/fps);*/
 
 document.getElementById('start').addEventListener('click', function(){
+    if(document.getElementById('diffE').checked){
+        time = 15;
+        inRow = 4;
+        maxSpeed = 12;
+        minTime = 4;
+    }
+    if (document.getElementById("diffM").checked) {
+      time = 10;
+      inRow = 6;
+      maxSpeed = 8;
+      minTime = 3;
+    }
+    if (document.getElementById("diffH").checked) {
+      time = 5;
+      inRow = 8;
+      maxSpeed = 5;
+      minTime = 2;
+    }
+    fillRects();
+    rects.forEach(function(obj) {
+        obj.paint(ctx);
+    })
+    player.paint(ctx);
     rounds = 1;
-    time = 10;
     startRound();
 })
 document.addEventListener('keydown', function(key){
@@ -66,6 +91,7 @@ document.addEventListener('keydown', function(key){
     })
 
 function startRound(){
+    $("#diffForm").hide();
     document.getElementById('counter').innerHTML = '<br>';
     player.fillStyle = "white";
     document.getElementById('round').innerHTML = '<b>'+rounds+'.</b> kolo';
@@ -98,8 +124,8 @@ function startRound(){
 
 function endRound(color){
     document.getElementById('counter').innerHTML = '<br>';
-    if(player.speed >= 12){
-        player.speed = 12;
+    if(player.speed >= maxSpeed){
+        player.speed = maxSpeed;
     }
     else{
         player.speed++;
@@ -148,6 +174,7 @@ function endRound(color){
 }
 
 function endGame(){
+    $("#diffForm").show();
     started = false;
     document.getElementById('message').innerHTML += '<br>Počet dokončených kol: '+rounds;
     document.getElementById('start').innerHTML = "Restart";
@@ -158,19 +185,22 @@ function fillRects(){
     var x = 0;
     var y = 0;
     var index = 0;
+    if(usedColors.length == colors.length){
+        allIn = true;
+    }
     for(j = 0; j < inRow; j++){
         x = 0;
         for(i = 0; i < inRow; i++){
-            index = Math.floor(Math.random() * colors.length);
-            if(usedColors.length != colors.length){
-                for(k = 0; k < usedColors.length; k++){
-                    if(usedColors[k] == colors[index]){
-                        index++;
-                        if(index > colors.length){
-                            index = 0;
-                        }
-                    }
+            index = Math.floor(Math.pow(Math.random() * colors.length) / colors.length);
+            if (usedColors.length != colors.length) {
+              for (k = 0; k < usedColors.length; k++) {
+                if (usedColors[k] == colors[index]) {
+                  index++;
+                  if (index > colors.length) {
+                    index = 0;
+                  }
                 }
+              }
             }
             current = new Rectangle(x,y,canvProperties.width/inRow,canvProperties.height/inRow,colors[index]);
             rects.push(current);
@@ -189,3 +219,4 @@ function fillRects(){
     }
     return;
 }
+})
