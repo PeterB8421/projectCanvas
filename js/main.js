@@ -5,6 +5,8 @@ var colors = ["red", "green", "blue", "yellow", "gray", "darkorange", "blueviole
 var lastColor = colors.length+1;
 var colorsCZ = ["červenou", "zelenou", "modrou", "žlutou", "šedou", "oranžovou", "fialovou", "světle modrou"];
 var usedColors = [];
+var gameNr = 0;
+var tries = [];
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var canvProperties = canvas.getBoundingClientRect();
@@ -14,34 +16,38 @@ var time;
 var started = false;
 var maxSpeed;
 var minTime;
-//var fps = 100;
+var diff;
+var fps = 60;
 fillRects();
 player.paint(ctx);
-/*setInterval(function(){
+setInterval(function(){
     rects.forEach(function(obj){
         obj.paint(ctx);
     });
     player.paint(ctx);
-},1000/fps);*/
+},1000/fps);
 
 document.getElementById('start').addEventListener('click', function(){
     if(document.getElementById('diffE').checked){
+        diff = "lehkou";
         time = 15;
         inRow = 4;
         maxSpeed = 12;
         minTime = 4;
     }
     if (document.getElementById("diffM").checked) {
-      time = 10;
-      inRow = 6;
-      maxSpeed = 8;
-      minTime = 3;
+        diff = "střední";
+        time = 10;
+        inRow = 6;
+        maxSpeed = 8;
+        minTime = 3;
     }
     if (document.getElementById("diffH").checked) {
-      time = 5;
-      inRow = 8;
-      maxSpeed = 5;
-      minTime = 2;
+        diff = "těžkou";
+        time = 5;
+        inRow = 8;
+        maxSpeed = 5;
+        minTime = 2;
     }
     fillRects();
     rects.forEach(function(obj) {
@@ -178,6 +184,8 @@ function endGame(){
     started = false;
     document.getElementById('message').innerHTML += '<br>Počet dokončených kol: '+rounds;
     document.getElementById('start').innerHTML = "Restart";
+    tries.push(rounds);
+    document.getElementById('stats').innerHTML += 'Na '+(++gameNr)+'. pokus jsi přežil '+rounds+' kol. Na obtížnost <b>'+diff+'.</b><br>'
 }
 
 function fillRects(){
@@ -185,6 +193,7 @@ function fillRects(){
     var x = 0;
     var y = 0;
     var index = 0;
+    rects = [];
     if(usedColors.length == colors.length){
         allIn = true;
     }
