@@ -1,6 +1,10 @@
 $(function() {
+//$("#statButton").hide();
+//Tvorba globálních proměnných
 var inRow = 4;
+//Pole pro uložení vytvořených obdélníků
 var rects = [];
+//Použité barvy
 var colors = ["red", "green", "blue", "yellow", "gray", "darkorange", "blueviolet", "cyan"];
 var lastColor = colors.length+1;
 var colorsCZ = ["červenou", "zelenou", "modrou", "žlutou", "šedou", "oranžovou", "fialovou", "světle modrou"];
@@ -17,9 +21,13 @@ var started = false;
 var maxSpeed;
 var minTime;
 var diff;
+//var opened = false;
 var fps = 60;
+//Vyplnění canvasu obdélníky
 fillRects();
+//Vykreslení hráče
 player.paint(ctx);
+//Nastavení FPS (nevím, jestli funguje, asi ne)
 setInterval(function(){
     rects.forEach(function(obj){
         obj.paint(ctx);
@@ -27,6 +35,7 @@ setInterval(function(){
     player.paint(ctx);
 },1000/fps);
 
+//Akce při kliknutí na (Re)Start, nastavení obtížnosti, znovu vykreslení obdélníku
 document.getElementById('start').addEventListener('click', function(){
     if(document.getElementById('diffE').checked){
         diff = "lehkou";
@@ -58,6 +67,7 @@ document.getElementById('start').addEventListener('click', function(){
     rounds = 1;
     startRound();
 })
+//Ovládání hráče
 document.addEventListener('keydown', function(key){
     if(started){
         switch(key.code){
@@ -97,6 +107,18 @@ document.addEventListener('keydown', function(key){
     }
     })
 
+/*document.getElementById('statButton').addEventListener('click', function(){
+    if(opened){
+        this.innerHTML = 'Sbalit';
+    }
+    else{
+        this.innerHTML = 'Rozbalit';
+    }
+    for(i = 5; i <= gameNr; i++){
+        $("#stat"+i).toggle(100);
+    }
+})*/
+//Začátek kola
 function startRound(){
     $("#diffForm").hide();
     document.getElementById('counter').innerHTML = '<br>';
@@ -104,6 +126,7 @@ function startRound(){
     document.getElementById('round').innerHTML = '<b>'+rounds+'.</b> kolo';
     started = true;
     var indexColor = Math.floor(Math.random() * colors.length);
+    //Zajištění, aby se neopakovala dvakrát stejná barva
     if(indexColor == lastColor){
         if(indexColor >= colors.length-1){
             indexColor = 0;
@@ -118,10 +141,12 @@ function startRound(){
     document.getElementById('chosenColor').style.color = colors[indexColor];
     document.getElementById('message').innerHTML = "<br>";
     var timeleft = time;
+    //Odpočet do konce kola
     var downloadTimer = setInterval(function(){
     document.getElementById('counter').style.color = "black";
     timeleft--;
     document.getElementById("counter").textContent = timeleft;
+    //Po vypršení timeru ukončení kola
     if(timeleft <= 0){
         clearInterval(downloadTimer);
         setTimeout(endRound(chosenColor), time);
@@ -129,9 +154,11 @@ function startRound(){
     },1000);   
 }
 
+//Ukončení kola
 function endRound(color){
     document.getElementById('counter').innerHTML = '<br>';
     document.getElementById('chosenColor').innerHTML = '<br>';
+    //Zrychlení pohybu hráče dle obtížnosti
     if(player.speed >= maxSpeed){
         player.speed = maxSpeed;
     }
@@ -145,6 +172,7 @@ function endRound(color){
         time --;
     }
     var isIn = false;
+    //Kontrola, zda se hráč nachází ve správné barvě
     rects.forEach(function(obj){
         if(obj.fillStyle == color){
             if(obj.bound(player.x,player.y)){
@@ -152,6 +180,7 @@ function endRound(color){
             }
         }
     });
+    //Pokud ne, ukonči hru
     if(!isIn){
         player.fillStyle = "darkred";
         rects.forEach(function(obj){
@@ -161,6 +190,7 @@ function endRound(color){
         document.getElementById('message').innerHTML = '<b>Konec hry!</b>';
         endGame();
     }
+    //Pokud ano, pokračuj dalším kolem, po určitém časové limitu (2 sek.)
     else{
         player.fillStyle = "chartreuse";
         rects.forEach(function(obj){
@@ -181,8 +211,10 @@ function endRound(color){
     return;
 }
 
+//Ukončení hry
 function endGame(){
     var ending;
+    //Zajištění korektního vypsání dle českého skloňování
     if(rounds == 1){
         ending = 'o';
     }
@@ -194,12 +226,20 @@ function endGame(){
     }
     $("#diffForm").show();
     started = false;
+    //Zprávy po dokončení hry
     document.getElementById('message').innerHTML += '<br>Počet dokončených kol: '+rounds;
     document.getElementById('start').innerHTML = "Restart";
     tries.push(rounds);
-    document.getElementById('stats').innerHTML += 'Na '+(++gameNr)+'. pokus jsi přežil '+rounds+' kol'+ending+'. Na obtížnost <b>'+diff+'.</b><br>'
+    document.getElementById('stats').innerHTML += '<p id="stat'+gameNr+'">Na '+(++gameNr)+'. pokus jsi přežil '+rounds+' kol'+ending+'. Na obtížnost <b>'+diff+'.</b><br></p>'
+    /*if(gameNr > 5){
+        if(gameNr == 5){
+            $("#statButton").show();
+        }
+        $("stat"+gameNr).hide();
+    }*/
 }
 
+//Funkce pro vyplnění canvasu obdélníky
 function fillRects(){
     var current;
     var x = 0;
@@ -213,7 +253,9 @@ function fillRects(){
     for(j = 0; j < inRow; j++){
         x = 0;
         for(i = 0; i < inRow; i++){
+            //Generátor náhodných čísel (barev), snaha aby se barvy nevykreslovaly stejně do diagonály
             index = Math.floor(Math.pow(Math.random() * colors.length) / colors.length);
+            //Zajištění, aby se vždy vykreslila alespoň jedna z každé barvy
             if (usedColors.length != colors.length) {
               for (k = 0; k < usedColors.length; k++) {
                 if (usedColors[k] == colors[index]) {
@@ -231,11 +273,13 @@ function fillRects(){
         }
     y += canvas.height/inRow;
     }
+    //Ošetření v případě chybně vybrané barvy
     rects.forEach(function(obj){
         if(obj.fillStyle == null){
             obj.fillStyle = colors[Math.floor(Math.random() * colors.length)];
         }
     })
+    //Vykreslení obdélníků
     for(i = 0; i < rects.length; i++){
         rects[i].paint(ctx);
     }
