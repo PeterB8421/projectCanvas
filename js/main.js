@@ -49,6 +49,7 @@ document.getElementById('start').addEventListener('click', function(){
         maxSpeed = 5;
         minTime = 2;
     }
+    player.speed = 5;
     fillRects();
     rects.forEach(function(obj) {
         obj.paint(ctx);
@@ -130,6 +131,7 @@ function startRound(){
 
 function endRound(color){
     document.getElementById('counter').innerHTML = '<br>';
+    document.getElementById('chosenColor').innerHTML = '<br>';
     if(player.speed >= maxSpeed){
         player.speed = maxSpeed;
     }
@@ -180,12 +182,22 @@ function endRound(color){
 }
 
 function endGame(){
+    var ending;
+    if(rounds == 1){
+        ending = 'o';
+    }
+    else if(rounds > 1 && rounds < 5){
+        ending = 'a';
+    }
+    else{
+        ending = '';
+    }
     $("#diffForm").show();
     started = false;
     document.getElementById('message').innerHTML += '<br>Počet dokončených kol: '+rounds;
     document.getElementById('start').innerHTML = "Restart";
     tries.push(rounds);
-    document.getElementById('stats').innerHTML += 'Na '+(++gameNr)+'. pokus jsi přežil '+rounds+' kol. Na obtížnost <b>'+diff+'.</b><br>'
+    document.getElementById('stats').innerHTML += 'Na '+(++gameNr)+'. pokus jsi přežil '+rounds+' kol'+ending+'. Na obtížnost <b>'+diff+'.</b><br>'
 }
 
 function fillRects(){
@@ -194,6 +206,7 @@ function fillRects(){
     var y = 0;
     var index = 0;
     rects = [];
+    usedColors = [];
     if(usedColors.length == colors.length){
         allIn = true;
     }

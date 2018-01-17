@@ -10,3 +10,9 @@ main{
 form{
     border: 1px solid black;
 }
+footer{
+    background-color: gray;
+    font-size: 14pt;
+    text-align: center;
+    color: black;
+}
