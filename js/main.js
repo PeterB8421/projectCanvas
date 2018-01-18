@@ -255,6 +255,7 @@ function endGame(){
 
 //Funkce pro vyplnění canvasu obdélníky
 function fillRects(){
+    var notIn = true;
     var current;
     var x = 0;
     var y = 0;
@@ -268,7 +269,12 @@ function fillRects(){
         x = 0;
         for(i = 0; i < inRow; i++){
             //Generátor náhodných čísel (barev), snaha aby se barvy nevykreslovaly stejně do diagonály
-            index = Math.floor(Math.pow(Math.random() * colors.length) / colors.length);
+            if(usedColors.length >= colors.length){
+                index = Math.floor(Math.pow(Math.random() * colors.length) / colors.length);
+            }
+            else{
+                index = Math.floor(Math.random() * colors.length);
+            }
             //Zajištění, aby se vždy vykreslila alespoň jedna z každé barvy
             if (usedColors.length != colors.length) {
               for (k = 0; k < usedColors.length; k++) {
@@ -282,7 +288,14 @@ function fillRects(){
             }
             current = new Rectangle(x,y,canvProperties.width/inRow,canvProperties.height/inRow,colors[index]);
             rects.push(current);
-            usedColors.push(colors[index]);
+            usedColors.forEach(function(obj){
+                if(usedColors[obj] == colors[index]){
+                    notIn = false;
+                }
+            })
+            if(notIn){
+                usedColors.push(colors[index]);
+            }
             x += canvas.width/inRow;
         }
     y += canvas.height/inRow;
