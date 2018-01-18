@@ -35,6 +35,12 @@ setInterval(function(){
     player.paint(ctx);
 },1000/fps);
 
+//Debugovací funkce pro zobrazení pole obdélníků, nějak nefunguje :/
+function showRects(){
+    rects.forEach(function(obj){
+        console.log(rects[obj]);
+    })
+}
 //Akce při kliknutí na (Re)Start, nastavení obtížnosti, znovu vykreslení obdélníku
 document.getElementById('start').addEventListener('click', function(){
     if(document.getElementById('diffE').checked){
@@ -107,6 +113,7 @@ document.addEventListener('keydown', function(key){
     }
     })
 
+    //Work in progress...
 /*document.getElementById('statButton').addEventListener('click', function(){
     if(opened){
         this.innerHTML = 'Sbalit';
@@ -138,7 +145,7 @@ function startRound(){
     lastColor = indexColor;
     var chosenColor = colors[indexColor];
     document.getElementById('chosenColor').innerHTML = colorsCZ[indexColor];
-    document.getElementById('chosenColor').style.color = colors[indexColor];
+    document.getElementById('chosenColor').style.backgroundColor = colors[indexColor];
     document.getElementById('message').innerHTML = "<br>";
     var timeleft = time;
     //Odpočet do konce kola
@@ -146,6 +153,12 @@ function startRound(){
     document.getElementById('counter').style.color = "black";
     timeleft--;
     document.getElementById("counter").textContent = timeleft;
+    if(timeleft > 0 && timeleft <= 2){
+        document.getElementById('counter').style.color = "red";
+    }
+    else{
+        document.getElementById('counter').style.color = "black";
+    }
     //Po vypršení timeru ukončení kola
     if(timeleft <= 0){
         clearInterval(downloadTimer);
@@ -157,6 +170,7 @@ function startRound(){
 //Ukončení kola
 function endRound(color){
     document.getElementById('counter').innerHTML = '<br>';
+    document.getElementById('chosenColor').style.backgroundColor = "white";
     document.getElementById('chosenColor').innerHTML = '<br>';
     //Zrychlení pohybu hráče dle obtížnosti
     if(player.speed >= maxSpeed){

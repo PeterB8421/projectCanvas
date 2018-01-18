@@ -3,9 +3,14 @@ canvas{
 }
 main{
     font-size: 16pt;
+    font-family: 'Roboto Slab', serif;
 }
 #chosenColor{
-    background-color: #ccc;
+    background-color: white;
+    color: #ddd;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 1.5em;
 }
 form{
     border: 1px solid black;
@@ -15,4 +20,8 @@ footer{
     font-size: 14pt;
     text-align: center;
     color: black;
+}
+#counter{
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5em;
 }
